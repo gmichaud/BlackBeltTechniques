@@ -30,8 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PX.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e" />
     <Reference Include="PX.Data">
       <HintPath>..\..\..\Program Files (x86)\Acumatica ERP\AcumaticaDemo2018\Bin\PX.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.DbServices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e" />
+    <Reference Include="PX.Objects">
+      <HintPath>..\..\..\Program Files (x86)\Acumatica ERP\AcumaticaDemo2018\Bin\PX.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationWideCaching.cs" />
+    <Compile Include="BqlConstants.cs" />
+    <Compile Include="MagicAttributes.cs" />
     <Compile Include="GlobalGraphExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
