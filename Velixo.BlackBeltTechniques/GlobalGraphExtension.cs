@@ -12,7 +12,7 @@ namespace Velixo.BlackBeltTechniques
             {
                 //Add a "Test" button in the toolbar
                 Type primaryViewItemType = Base.Views[Base.PrimaryView].Cache.GetItemType();
-                PXAction action = PXNamedAction.AddAction(Base, primaryViewItemType, "Test", "Test", TestClick);
+                PXAction action = PXNamedAction.AddAction(Base, primaryViewItemType, "GlobalTest", "Global Button", TestClick);
 
                 //Liste to FieldUpdating event for NoteText on primary view; we could also do it on every view that has a Note field.
                 PXCache primaryViewCache = Base.Caches[primaryViewItemType];
@@ -25,7 +25,7 @@ namespace Velixo.BlackBeltTechniques
 
         public IEnumerable TestClick(PXAdapter adapter)
         {
-            throw new PXException("Test button clicked from graph " + Base.GetType().Name);
+            throw new PXException($"Button clicked from graph {Base.GetType().Name}. This graph has {Base.Caches.Count} caches.");
         }
 
         public void NoteFieldUpdating(PXCache sender, PXFieldUpdatingEventArgs e)

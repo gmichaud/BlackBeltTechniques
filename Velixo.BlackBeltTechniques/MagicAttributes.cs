@@ -10,18 +10,23 @@ namespace Velixo.BlackBeltTechniques
 {
     public class SOOrderExt : PXCacheExtension<SOOrder>
     {
-        //Example 1 - PXUIVerify: Request date should be 2+ days from order
-        [PXMergeAttributes(Method = MergeMethod.Append)]
-        [PXUIVerify(typeof(Where<DateDiff<SOOrder.orderDate, SOOrder.requestDate, DateDiff.day>, GreaterEqual<int2>>), PXErrorLevel.Warning, "Requested date is too close to order date!")]
-        public DateTime? RequestDate { get; set; }
-
-        //Example 2 - PXUIRequired: Make CustomerOrderNbr required for everyone except "key" customers
+        //Example 1 - PXUIRequired: Make CustomerOrderNbr required on SO orders
         [PXMergeAttributes(Method = MergeMethod.Append)]
         [PXDefault]
-        [PXUIRequired(typeof(Where<Selector<SOOrder.customerID, Customer.customerClassID>, NotEqual<keyCustomersClass>>))]
+        [PXUIRequired(typeof(Where<SOOrder.orderType, Equal<sOOrderType>>))]
         public string CustomerOrderNbr { get; set; }
 
-        //Example 3 - PXUIEnabled+PXDefault+PXFormula trigger: Order description defaulted from Project and only editable for "X" (non-project code)
+        //Example 2 - PXUIVisible: Show ProjectID field only for key customers
+        [PXMergeAttributes(Method = MergeMethod.Append)]
+        [PXUIVisible(typeof(Where<Selector<SOOrder.customerID, Customer.customerClassID>, Equal<keyCustomersClass>>))]
+        public string ProjectID { get; set; }
+
+        //Example 3 - PXUIVerify: Request date should be greater than order date
+        [PXMergeAttributes(Method = MergeMethod.Append)]
+        [PXUIVerify(typeof(Where<SOOrder.requestDate, Greater<SOOrder.orderDate>>), PXErrorLevel.Warning, "Requested date should be greater than order date!")]
+        public DateTime? RequestDate { get; set; }
+
+        //Example 4 - PXUIEnabled+PXDefault+PXFormula trigger: Order description defaulted from Project and only editable for "X" (non-project code)
         [PXMergeAttributes(Method = MergeMethod.Append)]
         [PXUIEnabled(typeof(Where<Selector<SOOrder.projectID, PMProject.nonProject>, Equal<True>>))]
         [PXDefault(typeof(Search<PMTask.description,
@@ -33,7 +38,7 @@ namespace Velixo.BlackBeltTechniques
 
     public class SOLineExt : PXCacheExtension<SOLine>
     {
-        //Example 4 - PXFormula+Selector: Populate field on SOLine with MSRP value of currently selected item
+        //Example 5 - PXFormula+Selector: Populate field on SOLine with MSRP value of currently selected item
         [PXDBPriceCost]
         [PXUIField(DisplayName = "MSRP", Enabled = false)]
         [PXFormula(typeof(Selector<SOLine.inventoryID, InventoryItem.recPrice>))]
