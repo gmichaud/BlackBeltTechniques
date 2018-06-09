@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="ApplicationWideCaching.cs" />
     <Compile Include="BqlConstants.cs" />
+    <Compile Include="DependencyInjection.cs" />
     <Compile Include="HttpHandler.cs" />
     <Compile Include="MagicAttributes.cs" />
     <Compile Include="GlobalGraphExtension.cs" />

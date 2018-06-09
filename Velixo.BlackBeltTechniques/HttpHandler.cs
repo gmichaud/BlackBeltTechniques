@@ -1,25 +1,26 @@
 ﻿using Autofac;
 using PX.Data.DependencyInjection;
+using PX.Export.Authentication;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
-using PX.Export.Authentication;
 using System.Web;
 using System.Web.Routing;
 
 namespace Velixo.BlackBeltTechniques
 {
-    public class ServiceRegistration : Module
+    public class HttpHandlerServiceRegistration : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
+            //HTTP Web Handler
             builder.RegisterGeneric(typeof(RouteHandler<>)).SingleInstance();
             builder.RegisterType<SampleWebHookRequestHandler>().SingleInstance();
             builder.ActivateOnApplicationStart<RouteInitializer>(e => e.InitializeRoutes());
-            
+
             builder
                 .RegisterInstance(new LocationSettings
                 {
